@@ -106,24 +106,22 @@ fun MuseumsRow(navHostController: NavHostController, museums: Onemliyer) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Start
         ) {
             Image(
                 painter = painterResource(id = R.drawable.clocktower),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(60.dp)
-                    .padding(end = 8.dp), // İsteğe bağlı: İmage ile Text arasında bir boşluk ekler
+                    .size(70.dp)
+                    .padding(end = 8.dp), // İmage ile Text arasında bir boşluk ekler
             )
-
             Text(
                 text = museums.ADI,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
-                    .align(Alignment.Top)
-
+                    .align(Alignment.CenterVertically)
             )
         }
     }

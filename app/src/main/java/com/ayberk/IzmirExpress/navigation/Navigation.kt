@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ayberk.IzmirExpress.Anasayfa
+import com.ayberk.IzmirExpress.MuseumsDetails
 import com.ayberk.IzmirExpress.Muzeler
 import com.ayberk.IzmirExpress.SplashScreen
 
@@ -22,6 +23,9 @@ fun Navigation() {
         }
         composable("muzeler"){
             Muzeler(navHostController)
+        }
+        composable("museumsDetails/{position}") { navBackStackEntry ->
+            MuseumsDetails()
         }
     }
 }

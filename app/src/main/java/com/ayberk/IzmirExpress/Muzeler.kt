@@ -21,17 +21,26 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,6 +48,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -81,9 +91,7 @@ fun MuseumsList(
                 viewModel.loadMuseums()
             }
         }
-
     }
-
 }
 @Composable
 fun MuseumsItemGrid(navHostController: NavHostController, museums: List<Onemliyer>) {
@@ -96,33 +104,88 @@ fun MuseumsItemGrid(navHostController: NavHostController, museums: List<Onemliye
 
 @Composable
 fun MuseumsRow(navHostController: NavHostController, museums: Onemliyer) {
-    Card (
+    var expanded by remember { mutableStateOf(false) }
+    Card(
         modifier = Modifier
             .background(Color.White)
             .padding(8.dp),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(Color.Red)
-    ){
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    expanded = !expanded
+                }
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.clocktower),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(70.dp)
-                    .padding(end = 8.dp), // İmage ile Text arasında bir boşluk ekler
-            )
-            Text(
-                text = museums.ADI,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.clocktower),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(70.dp)
+                        .padding(end = 8.dp)
+                )
+                Text(
+                    text = museums.ADI,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                )
+            }
+
+            if (expanded) {
+                Text(
+                    text = museums.ACIKLAMA,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .padding(start = 8.dp)
+                        .padding(end = 8.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = museums.ILCE,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 16.dp),
+                    textAlign = TextAlign.End
+                )
+                IconButton(
+                    onClick = { expanded = false },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally) // İkonu yatayda ortalamak için
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = Color.White // Beyaz renkli olacak
+                    )
+                }
+            }  else {
+                IconButton(
+                    onClick = { expanded = true },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally) // İkonu yatayda ortalamak için
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = null,
+                        tint = Color.White // Beyaz renkli olacak
+                    )
+                }
+            }
         }
     }
 }

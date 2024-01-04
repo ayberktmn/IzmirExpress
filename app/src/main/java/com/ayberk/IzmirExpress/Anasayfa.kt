@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import com.ayberk.izmirilkyardim.R
 import androidx.navigation.NavHostController
+import com.ayberk.IzmirExpress.ui.theme.blue
 
 @Composable
 fun Anasayfa(navHostController: NavHostController) {
@@ -114,8 +116,9 @@ fun HomeItemRow(navHostController: NavHostController,imageResId: Int, title: Str
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(8.dp))
                 .align(Alignment.CenterVertically)
-                .height(IntrinsicSize.Min),
-            colors = CardDefaults.cardColors(containerColor = Color.Red)
+                .height(IntrinsicSize.Min)
+                .fillMaxHeight(),
+            colors = CardDefaults.cardColors(containerColor = blue)
         ) {
             Text(
                 text = title,
@@ -138,6 +141,7 @@ fun handleCardClick(navHostController:NavHostController,title: String) {
         }
         "Nöbetçi Eczaneler" -> {
             // Nöbetçi Eczane kartına tıklandığında yapılacak işlemler
+            navHostController.navigate("pharmacy")
         }
         "Su Kesintisi" -> {
             // Su Kesintisi kartına tıklandığında yapılacak işlemler
@@ -148,6 +152,5 @@ fun handleCardClick(navHostController:NavHostController,title: String) {
         "Etkinlikler" -> {
             // Etkinlikler kartına tıklandığında yapılacak işlemler
         }
-        // Diğer kartlar için gerekli işlemleri ekleyin
     }
 }

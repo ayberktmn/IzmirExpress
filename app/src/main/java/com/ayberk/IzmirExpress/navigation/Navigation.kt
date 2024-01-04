@@ -5,8 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ayberk.IzmirExpress.Anasayfa
-import com.ayberk.IzmirExpress.MuseumsDetails
 import com.ayberk.IzmirExpress.Muzeler
+import com.ayberk.IzmirExpress.Pharmacy
 import com.ayberk.IzmirExpress.SplashScreen
 
 @Composable
@@ -24,8 +24,8 @@ fun Navigation() {
         composable("muzeler"){
             Muzeler(navHostController)
         }
-        composable("museumsDetails/{position}") { navBackStackEntry ->
-            MuseumsDetails()
+        composable("pharmacy"){
+            Pharmacy(navHostController)
         }
     }
 }

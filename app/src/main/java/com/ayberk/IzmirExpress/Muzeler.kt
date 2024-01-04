@@ -55,6 +55,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.ayberk.IzmirExpress.model.Onemliyer
+import com.ayberk.IzmirExpress.ui.theme.blue
 import com.ayberk.IzmirExpress.viewmodel.DataViewModel
 import com.ayberk.izmirilkyardim.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +85,7 @@ fun MuseumsList(
         modifier = Modifier.fillMaxSize()
     ) {
         if(isLoading) {
-            CircularProgressIndicator(color = Color.Blue)
+            CircularProgressIndicator(color = blue)
         }
         if(errorMessage.isNotEmpty()) {
             RetryView(error = errorMessage) {
@@ -110,7 +111,7 @@ fun MuseumsRow(navHostController: NavHostController, museums: Onemliyer) {
             .background(Color.White)
             .padding(8.dp),
         shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(Color.Red)
+        colors = CardDefaults.cardColors(blue)
     ) {
         Column(
             modifier = Modifier

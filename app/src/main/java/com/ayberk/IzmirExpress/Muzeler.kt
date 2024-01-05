@@ -64,7 +64,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @Composable
 fun Muzeler(
     navHostController: NavHostController,
-    museumViewModel: DataViewModel = hiltViewModel()
 ) {
     MuseumsList(navHostController = navHostController)
 }

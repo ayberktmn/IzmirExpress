@@ -63,7 +63,7 @@ fun Anasayfa(navHostController: NavHostController) {
             topBar = {
                 // TopAppBar, action bar benzeri bir üst çubuğu oluşturur
                 TopAppBar(
-                    title = { Text(text = "İzmir Express") },
+                    title = { Text(text = "İzmir Express", color = Color.White) },
                     colors = TopAppBarDefaults.mediumTopAppBarColors(blue),
                     navigationIcon = {
                         // Geri butonu eklemek için kullanılabilir

@@ -1,5 +1,6 @@
 package com.ayberk.IzmirExpress
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,8 +19,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,38 +43,49 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
+import androidx.core.view.WindowCompat
 import com.ayberk.izmirilkyardim.R
 import androidx.navigation.NavHostController
+import com.ayberk.IzmirExpress.ui.theme.IzmirExpressTheme
 import com.ayberk.IzmirExpress.ui.theme.blue
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Anasayfa(navHostController: NavHostController) {
     var allowBackNavigation by remember { mutableStateOf(true) }
     BackHandler(enabled = allowBackNavigation){}
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        HomeText()
-        HomeItem(navHostController)
+    // Tema belirleme işlemi
+    IzmirExpressTheme() {
+        // Scaffold, ekran üzerinde temel yapıyı oluşturur (AppBar, Drawer, vs.)
+        Scaffold(
+            topBar = {
+                // TopAppBar, action bar benzeri bir üst çubuğu oluşturur
+                TopAppBar(
+                    title = { Text(text = "İzmir Express") },
+                    colors = TopAppBarDefaults.mediumTopAppBarColors(blue),
+                    navigationIcon = {
+                        // Geri butonu eklemek için kullanılabilir
+                        IconButton(onClick = { /* Handle back button click */ }) {
+                            Icon(painter = painterResource(id = R.drawable.clocktower), contentDescription = null)
+                        }
+                    },
+                )
+            },
+            content = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(50.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    HomeItem(navHostController)
+                }
+            }
+        )
     }
-}
-
-@Composable
-fun HomeText() {
-    val customFontFamily = FontFamily(
-        Font(R.font.inter)
-    )
-    Text(
-        text = "Anasayfa",
-        textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.headlineLarge,
-        fontFamily = customFontFamily,
-    )
 }
 
 @Composable
@@ -96,40 +116,49 @@ fun HomeItem(navHostController: NavHostController) {
 
 @Composable
 fun HomeItemRow(navHostController: NavHostController,imageResId: Int, title: String) {
-    Spacer(modifier = Modifier.height(32.dp))
-    Row(
+    Spacer(modifier = Modifier.height(45.dp))
+    Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                handleCardClick(navHostController, title)
-            },
-    ) {
-        Image(
-            painter = painterResource(id = imageResId),
-            contentDescription = null,
+            .clip(shape = RoundedCornerShape(8.dp))
+            .height(IntrinsicSize.Min)
+            .fillMaxHeight(),
+        colors = CardDefaults.cardColors(containerColor = blue)
+    ){
+        Row(
             modifier = Modifier
-                .size(100.dp)
-                .padding(start = 16.dp)
-        )
-        Spacer(modifier = Modifier.width(64.dp))
-        Card(
-            modifier = Modifier
-                .clip(shape = RoundedCornerShape(8.dp))
-                .align(Alignment.CenterVertically)
-                .height(IntrinsicSize.Min)
-                .fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = blue)
+                .fillMaxWidth()
+                .clickable {
+                    handleCardClick(navHostController, title)
+                },
         ) {
-            Text(
-                text = title,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                fontFamily = FontFamily.SansSerif,
-                color = Color.White,
-                modifier = Modifier.padding(16.dp)
+            Image(
+                painter = painterResource(id = imageResId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(start = 16.dp)
             )
+            Spacer(modifier = Modifier.width(64.dp))
+            Card(
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterVertically)
+                    .height(IntrinsicSize.Min)
+                    .fillMaxHeight(),
+                colors = CardDefaults.cardColors(containerColor = blue)
+            ) {
+                Text(
+                    text = title,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontFamily = FontFamily.SansSerif,
+                    color = Color.White,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
     }
+
 }
 
 fun handleCardClick(navHostController:NavHostController,title: String) {

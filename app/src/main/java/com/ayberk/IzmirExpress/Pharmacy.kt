@@ -110,6 +110,18 @@ fun PharmacyItem(pharmacy: PharmacyItem) {
     val bolgeText = pharmacy.Bolge
     val detailsbolgeText = bolgeText.substringBefore('-').trim()
 
+    val telefonNumarasi = pharmacy.Telefon
+
+    val formattedTelefonNumarasi = String.format(
+        "%s %s %s %s %s",
+        telefonNumarasi.substring(0, 1),
+        telefonNumarasi.substring(1, 4),
+        telefonNumarasi.substring(4, 7),
+        telefonNumarasi.substring(7, 9),
+        telefonNumarasi.substring(9, 11),
+        telefonNumarasi.substring(11)
+    )
+
     var expanded by remember { mutableStateOf(false) }
 
     Card(
@@ -178,6 +190,14 @@ fun PharmacyItem(pharmacy: PharmacyItem) {
                         modifier = Modifier
                             .padding(start = 8.dp)
                             .padding(top = 8.dp)
+                    )
+                    Text(
+                        text = formattedTelefonNumarasi,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(top = 8.dp),
                     )
                     IconButton(
                         onClick = { expanded = false },

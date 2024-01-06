@@ -2,6 +2,7 @@ package com.ayberk.IzmirExpress.retrofit
 
 import com.ayberk.IzmirExpress.model.Museums
 import com.ayberk.IzmirExpress.model.Pharmacy
+import com.ayberk.IzmirExpress.model.WaterProblem
 import retrofit2.http.GET
 
 interface RetrofitInstance {
@@ -11,5 +12,8 @@ interface RetrofitInstance {
 
     @GET("api/ibb/nobetcieczaneler")
     suspend fun getPharmacy(): Pharmacy
+
+    @GET("api/izsu/arizakaynaklisukesintileri")
+    suspend fun getWaterProblem(): WaterProblem
 
 }

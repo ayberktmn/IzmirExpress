@@ -130,35 +130,28 @@ fun HomeItemRow(navHostController: NavHostController,imageResId: Int, title: Str
                 .clickable {
                     handleCardClick(navHostController, title)
                 },
+            verticalAlignment = Alignment.CenterVertically,
+
         ) {
             Image(
                 painter = painterResource(id = imageResId),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
-                    .padding(start = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp)
             )
-            Spacer(modifier = Modifier.width(64.dp))
-            Card(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(8.dp))
-                    .align(Alignment.CenterVertically)
-                    .height(IntrinsicSize.Min)
-                    .fillMaxHeight(),
-                colors = CardDefaults.cardColors(containerColor = blue)
-            ) {
-                Text(
-                    text = title,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontFamily = FontFamily.SansSerif,
-                    color = Color.White,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
+
+            Text(
+                text = title,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                fontFamily = FontFamily.SansSerif,
+                color = Color.White,
+                modifier = Modifier.padding(16.dp)
+                    .weight(1f)
+            )
         }
     }
-
 }
 
 fun handleCardClick(navHostController:NavHostController,title: String) {
@@ -174,6 +167,7 @@ fun handleCardClick(navHostController:NavHostController,title: String) {
         }
         "Su Kesintisi" -> {
             // Su Kesintisi kartına tıklandığında yapılacak işlemler
+            navHostController.navigate("waterproblem")
         }
         "Acil Toplanma Alanları" -> {
             // Acil Toplanma Alanları kartına tıklandığında yapılacak işlemler

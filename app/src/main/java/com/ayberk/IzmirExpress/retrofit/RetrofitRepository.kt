@@ -2,6 +2,7 @@ package com.ayberk.IzmirExpress.retrofit
 
 import com.ayberk.IzmirExpress.model.Museums
 import com.ayberk.IzmirExpress.model.Pharmacy
+import com.ayberk.IzmirExpress.model.WaterProblem
 import com.ayberk.IzmirExpress.util.Resource
 import javax.inject.Inject
 
@@ -21,6 +22,15 @@ class RetrofitRepository @Inject constructor(
             api.getPharmacy()
         }catch (e:Exception){
             return Resource.Error("Pharmacy Error")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getWaterProblem():Resource<WaterProblem>{
+        val response = try {
+            api.getWaterProblem()
+        }catch (e:Exception){
+            return Resource.Error("WaterProblem Error")
         }
         return Resource.Success(response)
     }

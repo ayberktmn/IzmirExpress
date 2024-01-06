@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.ayberk.IzmirExpress.PharmacyItem
 import com.ayberk.IzmirExpress.model.Onemliyer
 import com.ayberk.IzmirExpress.model.PharmacyItem
+import com.ayberk.IzmirExpress.model.WaterProblem
+import com.ayberk.IzmirExpress.model.WaterProblemItem
 import com.ayberk.IzmirExpress.retrofit.RetrofitRepository
 import com.ayberk.IzmirExpress.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,10 +22,12 @@ class DataViewModel @Inject constructor(
     var isLoading = mutableStateOf(false)
     var museumsList = mutableStateOf<List<Onemliyer>>(listOf())
     var pharmacyList = mutableStateOf<List<PharmacyItem>>(listOf())
+    var waterProblemList = mutableStateOf<List<WaterProblemItem>>(listOf())
 
     init {
         loadMuseums()
         loadPharmacy()
+        loadWaterProblem()
     }
 
     fun loadMuseums() {
@@ -87,6 +91,48 @@ class DataViewModel @Inject constructor(
                     errorMessage.value = ""
                     isLoading.value = false
                     pharmacyList.value = pharmacyItems
+                }
+                is Resource.Error -> {
+                    errorMessage.value = result.message ?: "Bir hata oluştu."
+                    isLoading.value = false
+                }
+                is Resource.Loading -> {
+                    errorMessage.value = ""
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun loadWaterProblem(){
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = repository.getWaterProblem()
+            when(result){
+                is Resource.Success -> {
+                    val WaterProblemsitems = result.data?.map { item ->
+                        WaterProblemItem(
+                    item.Aciklama,
+                    item.ArizaDurumu,
+                    item.ArizaGiderilmeTarihi,
+                    item.ArizaID,
+                    item.ArizaTipID,
+                    item.Birim,
+                    item.GuncellemeTarihi,
+                    item.IlceAdi,
+                    item.IlceID,
+                    item.KayitTarihi,
+                    item.KesintiSuresi,
+                    item.KesintiTarihi,
+                    item.MahalleID,
+                    item.Mahalleler,
+                    item.Ongoru,
+                    item.Tip,
+                        )
+                    }?: emptyList()
+                    errorMessage.value = ""
+                    isLoading.value = false
+                    waterProblemList.value = WaterProblemsitems
                 }
                 is Resource.Error -> {
                     errorMessage.value = result.message ?: "Bir hata oluştu."

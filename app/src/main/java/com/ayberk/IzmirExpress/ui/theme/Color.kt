@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val blue = Color(0xFF3438DB)
 val red = Color(0xFFEC3636)
+val white = Color(0xFFFFFFFF)
+val waterLoadingcolor = Color(0xFF1AD8F0)

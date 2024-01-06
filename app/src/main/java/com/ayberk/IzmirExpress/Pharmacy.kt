@@ -47,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.ayberk.IzmirExpress.model.PharmacyItem
 import com.ayberk.IzmirExpress.ui.theme.blue
+import com.ayberk.IzmirExpress.ui.theme.red
 import com.ayberk.IzmirExpress.viewmodel.DataViewModel
 import com.ayberk.izmirilkyardim.R
 import java.time.LocalDateTime
@@ -130,7 +131,7 @@ fun PharmacyItem(pharmacy: PharmacyItem) {
 
             .padding(8.dp),
         shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(Color.Red)
+        colors = CardDefaults.cardColors(red)
     ) {
         Row(
             modifier = Modifier,
@@ -153,6 +154,7 @@ fun PharmacyItem(pharmacy: PharmacyItem) {
                 style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier
                     .padding(start = 4.dp)
+                    .padding(end = 2.dp)
             )
         }
         Row(

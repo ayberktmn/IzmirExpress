@@ -111,7 +111,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
 
     Card(
         modifier = Modifier
-            .size(200.dp, 300.dp)
+            .fillMaxHeight()
             .padding(8.dp)
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
@@ -177,6 +177,11 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                         .align(Alignment.CenterVertically)
                 )
             }
+            Text(
+                text = waterProblemItem.IlceAdi,
+                modifier = Modifier
+                    .padding(start = 2.dp)
+            )
         }
     }
 }

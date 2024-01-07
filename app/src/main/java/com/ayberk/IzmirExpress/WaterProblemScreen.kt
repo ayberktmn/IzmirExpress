@@ -115,7 +115,8 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
     date = dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
     time = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
 
-    var isProfileImageClicked by remember { mutableStateOf(false) }
+    var isWaterDetailsClicked by remember { mutableStateOf(false) }
+    var isNoWaterTimeClicked by remember { mutableStateOf(false) }
 
     val customFontFamily = FontFamily(
         Font(R.font.inter)
@@ -126,7 +127,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
             .fillMaxHeight()
             .padding(8.dp)
             .clickable {
-                isProfileImageClicked = true
+                isWaterDetailsClicked = true
             }
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
@@ -139,10 +140,10 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         )  {
-            if (isProfileImageClicked) {
+            if (isWaterDetailsClicked) {
                 AlertDialog(
                     onDismissRequest = {
-                        isProfileImageClicked = false
+                        isWaterDetailsClicked = false
                     },
                     confirmButton = {
                         Row(
@@ -211,7 +212,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            IconButton(onClick = { /* Handle back button click */ }) {
+                            IconButton(onClick = { isNoWaterTimeClicked = true }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.clock),
                                     contentDescription = null,
@@ -265,7 +266,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { /* Handle back button click */ }) {
+                IconButton(onClick = { isNoWaterTimeClicked = true }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
                         contentDescription = null,
@@ -283,7 +284,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { /* Handle back button click */ }) {
+                IconButton(onClick = { isNoWaterTimeClicked = true }) {
                     Icon(
                         painter = painterResource(id = R.drawable.clock),
                         contentDescription = null,
@@ -298,6 +299,20 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                         .align(Alignment.CenterVertically)
                 )
             }
+
+            if(isNoWaterTimeClicked){
+                AlertDialog(
+                    onDismissRequest = { isNoWaterTimeClicked = false},
+                    confirmButton = {
+                        Text(
+                            text = waterProblemItem.KesintiSuresi,
+                            textAlign = TextAlign.Center,
+                            fontFamily = FontFamily.Default,
+                            color = Color.Black
+                        )
+                    }
+                )
+            }
             Text(
                 text = waterProblemItem.IlceAdi,
                 modifier = Modifier
@@ -306,3 +321,4 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
         }
     }
 }
+

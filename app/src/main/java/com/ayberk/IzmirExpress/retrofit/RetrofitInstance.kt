@@ -1,5 +1,6 @@
 package com.ayberk.IzmirExpress.retrofit
 
+import com.ayberk.IzmirExpress.model.EmergencyCollect
 import com.ayberk.IzmirExpress.model.Museums
 import com.ayberk.IzmirExpress.model.Pharmacy
 import com.ayberk.IzmirExpress.model.WaterProblem
@@ -15,5 +16,8 @@ interface RetrofitInstance {
 
     @GET("api/izsu/arizakaynaklisukesintileri")
     suspend fun getWaterProblem(): WaterProblem
+
+    @GET("api/ibb/cbs/afetaciltoplanmaalani")
+    suspend fun getEmergencyCollect(): EmergencyCollect
 
 }

@@ -1,5 +1,6 @@
 package com.ayberk.IzmirExpress.retrofit
 
+import com.ayberk.IzmirExpress.model.EmergencyCollect
 import com.ayberk.IzmirExpress.model.Museums
 import com.ayberk.IzmirExpress.model.Pharmacy
 import com.ayberk.IzmirExpress.model.WaterProblem
@@ -31,6 +32,15 @@ class RetrofitRepository @Inject constructor(
             api.getWaterProblem()
         }catch (e:Exception){
             return Resource.Error("WaterProblem Error")
+        }
+        return Resource.Success(response)
+    }
+
+    suspend fun getEmergencyCollect():Resource<EmergencyCollect>{
+        val response = try {
+            api.getEmergencyCollect()
+        }catch (e:Exception){
+            return Resource.Error("EmergencyCollect Error")
         }
         return Resource.Success(response)
     }

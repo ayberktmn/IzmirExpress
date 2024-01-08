@@ -4,7 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayberk.IzmirExpress.PharmacyItem
+import com.ayberk.IzmirExpress.model.EmergencyCollect
 import com.ayberk.IzmirExpress.model.Onemliyer
+import com.ayberk.IzmirExpress.model.OnemliyerX
 import com.ayberk.IzmirExpress.model.PharmacyItem
 import com.ayberk.IzmirExpress.model.WaterProblem
 import com.ayberk.IzmirExpress.model.WaterProblemItem
@@ -23,11 +25,13 @@ class DataViewModel @Inject constructor(
     var museumsList = mutableStateOf<List<Onemliyer>>(listOf())
     var pharmacyList = mutableStateOf<List<PharmacyItem>>(listOf())
     var waterProblemList = mutableStateOf<List<WaterProblemItem>>(listOf())
+    var emergencyCollectList = mutableStateOf<List<OnemliyerX>>(listOf())
 
     init {
         loadMuseums()
         loadPharmacy()
         loadWaterProblem()
+        loadEmergencyCollect()
     }
 
     fun loadMuseums() {
@@ -133,6 +137,41 @@ class DataViewModel @Inject constructor(
                     errorMessage.value = ""
                     isLoading.value = false
                     waterProblemList.value = WaterProblemsitems
+                }
+                is Resource.Error -> {
+                    errorMessage.value = result.message ?: "Bir hata oluştu."
+                    isLoading.value = false
+                }
+                is Resource.Loading -> {
+                    errorMessage.value = ""
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun loadEmergencyCollect(){
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = repository.getEmergencyCollect()
+            when(result){
+                is Resource.Success -> {
+                    val Emergencycollectsitems = result.data?.onemliyer?.map { item ->
+                        OnemliyerX(
+                            item.ACIKLAMA,
+                            item.ADI,
+                            item.BOYLAM,
+                            item.ENLEM,
+                            item.ILCE,
+                            item.ILCEID,
+                            item.KAPINO,
+                            item.MAHALLE,
+                            item.YOL
+                        )
+                    }?: emptyList()
+                    errorMessage.value = ""
+                    isLoading.value = false
+                    emergencyCollectList.value = Emergencycollectsitems
                 }
                 is Resource.Error -> {
                     errorMessage.value = result.message ?: "Bir hata oluştu."

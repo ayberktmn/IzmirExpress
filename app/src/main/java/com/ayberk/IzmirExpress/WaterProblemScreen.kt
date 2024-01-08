@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -15,11 +16,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
@@ -124,7 +128,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
 
     Card(
         modifier = Modifier
-            .fillMaxHeight()
+            .fillMaxSize()
             .padding(8.dp)
             .clickable {
                 isWaterDetailsClicked = true
@@ -174,7 +178,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            IconButton(onClick = { /* Handle back button click */ }) {
+                            IconButton(onClick = { isNoWaterTimeClicked = true }) {
                                 Icon(
                                     imageVector = Icons.Default.DateRange,
                                     contentDescription = null,
@@ -250,7 +254,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                 painter = painterResource(id = R.drawable.nowater),
                 contentDescription = "nowater",
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(80.dp)
             )
             Text(
                 text = waterProblemItem.Tip,
@@ -258,7 +262,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                 color = blue,
                 fontFamily = FontFamily.SansSerif,
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(top = 8.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -272,13 +276,14 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                         contentDescription = null,
                     )
                 }
+                Spacer(modifier = Modifier.width(4.dp)) // Özel bir boşluk ekleyin
                 Text(
                     text = date,
                     modifier = Modifier
-                        .padding(start = 2.dp)
                         .align(Alignment.CenterVertically)
                 )
             }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -292,14 +297,13 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                             .size(20.dp)
                     )
                 }
+                Spacer(modifier = Modifier.width(4.dp)) // Özel bir boşluk ekleyin
                 Text(
                     text = time,
                     modifier = Modifier
-                        .padding(start = 2.dp)
                         .align(Alignment.CenterVertically)
                 )
             }
-
             if(isNoWaterTimeClicked){
                 AlertDialog(
                     onDismissRequest = { isNoWaterTimeClicked = false},
@@ -317,6 +321,7 @@ fun WaterProblemItemList(navHostController: NavHostController, waterProblemItem:
                 text = waterProblemItem.IlceAdi,
                 modifier = Modifier
                     .padding(start = 2.dp)
+                    .padding(top = 4.dp)
             )
         }
     }

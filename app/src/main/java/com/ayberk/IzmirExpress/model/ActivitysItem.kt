@@ -2,7 +2,7 @@ package com.ayberk.IzmirExpress.model
 
 data class ActivitysItem(
     val Adi: String,
-    val BiletSatisLinki: String,
+    val BiletSatisLinki: String?,
     val EtkinlikBaslamaTarihi: String,
     val EtkinlikBitisTarihi: String,
     val EtkinlikMerkezi: String,

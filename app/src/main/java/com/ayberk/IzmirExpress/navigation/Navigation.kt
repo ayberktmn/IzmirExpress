@@ -39,7 +39,7 @@ fun Navigation() {
         composable("emergencyassembly"){
             EmergencyassemblyareaScreen(navHostController)
         }
-        composable("activty"){
+        composable("activity"){
             ActivityScreen(navHostController)
         }
     }

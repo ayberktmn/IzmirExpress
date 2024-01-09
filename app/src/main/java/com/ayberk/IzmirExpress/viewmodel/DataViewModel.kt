@@ -35,6 +35,7 @@ class DataViewModel @Inject constructor(
         loadPharmacy()
         loadWaterProblem()
         loadEmergencyCollect()
+        loadActivitys()
     }
 
     fun loadMuseums() {
@@ -194,7 +195,7 @@ class DataViewModel @Inject constructor(
             val result = repository.getActivitys()
             when(result){
                 is Resource.Success -> {
-                    val activitysitems = result.data?.map { item ->
+                    val activitysitems = result.data?.filterNotNull()?.map { item ->
                         ActivitysItem(
                             item.Adi,
                             item.BiletSatisLinki,
@@ -219,7 +220,7 @@ class DataViewModel @Inject constructor(
                     isLoading.value = false
                 }
                 is Resource.Loading -> {
-                    errorMessage.value = ""
+                    errorMessage.value = "Hata"
                 }
                 else -> {}
             }

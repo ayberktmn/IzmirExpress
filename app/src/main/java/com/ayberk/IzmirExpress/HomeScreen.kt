@@ -170,6 +170,7 @@ fun handleCardClick(navHostController:NavHostController,title: String) {
         }
         "Etkinlikler" -> {
             // Etkinlikler kartına tıklandığında yapılacak işlemler
+            navHostController.navigate("activity")
         }
     }
 }

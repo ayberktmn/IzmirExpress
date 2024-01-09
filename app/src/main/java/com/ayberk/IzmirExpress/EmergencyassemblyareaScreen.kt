@@ -70,7 +70,7 @@ fun EmergencyList( navHostController: NavHostController,viewModel: DataViewModel
         modifier = Modifier.fillMaxSize()
     ) {
         if(isLoading) {
-            CircularProgressIndicator(color = yellow)
+            CircularProgressIndicator(color = yellow, modifier = Modifier.align(Alignment.TopCenter).padding(top = 8.dp))
         }
         if(errorMessage.isNotEmpty()) {
             RetryViewEmergency(error = errorMessage) {

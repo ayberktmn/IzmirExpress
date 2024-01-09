@@ -1,5 +1,6 @@
 package com.ayberk.IzmirExpress.retrofit
 
+import com.ayberk.IzmirExpress.model.Activitys
 import com.ayberk.IzmirExpress.model.EmergencyCollect
 import com.ayberk.IzmirExpress.model.Museums
 import com.ayberk.IzmirExpress.model.Pharmacy
@@ -20,4 +21,6 @@ interface RetrofitInstance {
     @GET("api/ibb/cbs/afetaciltoplanmaalani")
     suspend fun getEmergencyCollect(): EmergencyCollect
 
+    @GET("api/ibb/kultursanat/etkinlikler")
+    suspend fun getActivitys(): Activitys
 }

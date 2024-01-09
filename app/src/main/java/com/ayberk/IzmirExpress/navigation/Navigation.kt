@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ayberk.IzmirExpress.ActivityScreen
 import com.ayberk.IzmirExpress.Anasayfa
 import com.ayberk.IzmirExpress.EmergencyassemblyareaScreen
 import com.ayberk.IzmirExpress.Muzeler
@@ -37,6 +38,9 @@ fun Navigation() {
         }
         composable("emergencyassembly"){
             EmergencyassemblyareaScreen(navHostController)
+        }
+        composable("activty"){
+            ActivityScreen(navHostController)
         }
     }
 }

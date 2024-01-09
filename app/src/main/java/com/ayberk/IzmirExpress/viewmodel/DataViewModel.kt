@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayberk.IzmirExpress.PharmacyItem
+import com.ayberk.IzmirExpress.model.Activitys
+import com.ayberk.IzmirExpress.model.ActivitysItem
 import com.ayberk.IzmirExpress.model.EmergencyCollect
 import com.ayberk.IzmirExpress.model.Onemliyer
 import com.ayberk.IzmirExpress.model.OnemliyerX
@@ -26,6 +28,7 @@ class DataViewModel @Inject constructor(
     var pharmacyList = mutableStateOf<List<PharmacyItem>>(listOf())
     var waterProblemList = mutableStateOf<List<WaterProblemItem>>(listOf())
     var emergencyCollectList = mutableStateOf<List<OnemliyerX>>(listOf())
+    var activitysList = mutableStateOf<List<ActivitysItem>>(listOf())
 
     init {
         loadMuseums()
@@ -172,6 +175,44 @@ class DataViewModel @Inject constructor(
                     errorMessage.value = ""
                     isLoading.value = false
                     emergencyCollectList.value = Emergencycollectsitems
+                }
+                is Resource.Error -> {
+                    errorMessage.value = result.message ?: "Bir hata oluştu."
+                    isLoading.value = false
+                }
+                is Resource.Loading -> {
+                    errorMessage.value = ""
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun loadActivitys(){
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = repository.getActivitys()
+            when(result){
+                is Resource.Success -> {
+                    val activitysitems = result.data?.map { item ->
+                        ActivitysItem(
+                            item.Adi,
+                            item.BiletSatisLinki,
+                            item.EtkinlikBaslamaTarihi,
+                            item.EtkinlikBitisTarihi,
+                            item.EtkinlikMerkezi,
+                            item.EtkinlikUrl,
+                            item.Id,
+                            item.KisaAciklama,
+                            item.KucukAfis,
+                            item.Resim,
+                            item.Tur,
+                            item.UcretsizMi
+                        )
+                    }?: emptyList()
+                    errorMessage.value = ""
+                    isLoading.value = false
+                    activitysList.value = activitysitems
                 }
                 is Resource.Error -> {
                     errorMessage.value = result.message ?: "Bir hata oluştu."

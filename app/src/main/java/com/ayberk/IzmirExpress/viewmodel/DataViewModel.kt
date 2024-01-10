@@ -34,7 +34,7 @@ class DataViewModel @Inject constructor(
         loadMuseums()
         loadPharmacy()
         loadWaterProblem()
-        loadEmergencyCollect()
+       // loadEmergencyCollect()
         loadActivitys()
     }
 

@@ -49,6 +49,7 @@ import com.ayberk.IzmirExpress.ui.theme.blue
 import com.ayberk.IzmirExpress.ui.theme.red
 import com.ayberk.IzmirExpress.ui.theme.yellow
 import com.ayberk.IzmirExpress.viewmodel.DataViewModel
+import com.ayberk.IzmirExpress.viewmodel.EmergencyViewModel
 import com.ayberk.izmirilkyardim.R
 
 @Composable
@@ -57,7 +58,7 @@ fun EmergencyassemblyareaScreen(navHostController: NavHostController) {
 }
 
 @Composable
-fun EmergencyList( navHostController: NavHostController,viewModel: DataViewModel = hiltViewModel()
+fun EmergencyList( navHostController: NavHostController,viewModel: EmergencyViewModel = hiltViewModel()
 ) {
     val emergencyassemblyList by remember { viewModel.emergencyCollectList }
     val errorMessage by remember { viewModel.errorMessage }

@@ -3,7 +3,9 @@ package com.ayberk.IzmirExpress
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -104,74 +107,73 @@ fun ActivitysItem(activitys:ActivitysItem) {
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(Color.Black),
-    ){
-        Card(
+    ) {
+        Image(
+            painter = rememberImagePainter(data = activitys.Resim),
+            contentDescription = null,
             modifier = Modifier
-                .padding(8.dp)
-                .size(150.dp)
                 .align(Alignment.CenterHorizontally)
-                .shadow(8.dp, shape = MaterialTheme.shapes.medium),
-            shape = MaterialTheme.shapes.medium,
-            colors = CardDefaults.cardColors(Color.White),
-        ) {
-            Image(
-                painter = rememberImagePainter(data = activitys.Resim),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillHeight
-            )
-        }
+                .padding(top = 8.dp)
+                .size(150.dp),
+            contentScale = ContentScale.FillHeight
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = activitys.Adi,
             color = Color.White,
             textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+                .padding(horizontal = 16.dp) // Genel yatay iç açıklık
         ) {
-            IconButton(onClick = {  }) {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = null,
-                    tint = Color.White
-                )
-            }
-            Text(
-                text = date,
+            Row(
                 modifier = Modifier
-                    .padding(start = 2.dp)
-                    .align(Alignment.CenterVertically),
-                color = Color.White
-            )
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            IconButton(onClick = {  }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.clock),
-                    contentDescription = null,
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+                Text(
+                    text = date,
                     modifier = Modifier
-                        .size(20.dp),
-                    tint = Color.White
+                        .padding(start = 2.dp, end = 2.dp)
+                        .align(Alignment.CenterVertically),
+                    color = Color.White
                 )
             }
-            Text(
-                text = time,
+            Row(
                 modifier = Modifier
-                    .padding(start = 2.dp)
-                    .align(Alignment.CenterVertically),
-                color = Color.White
-            )
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.clock),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(20.dp),
+                        tint = Color.White
+                    )
+                }
+                Text(
+                    text = time,
+                    modifier = Modifier
+                        .padding(start = 2.dp)
+                        .align(Alignment.CenterVertically),
+                    color = Color.White
+                )
+            }
         }
     }
-
 }

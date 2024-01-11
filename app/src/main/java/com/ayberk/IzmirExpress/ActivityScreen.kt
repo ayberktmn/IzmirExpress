@@ -1,5 +1,7 @@
 package com.ayberk.IzmirExpress
 
+import android.provider.DocumentsContract
+import android.text.style.TextAppearanceSpan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -41,8 +44,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -53,21 +59,24 @@ import com.ayberk.IzmirExpress.model.Onemliyer
 import com.ayberk.IzmirExpress.ui.theme.blue
 import com.ayberk.IzmirExpress.viewmodel.DataViewModel
 import com.ayberk.izmirilkyardim.R
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.safety.Whitelist
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
 fun ActivityScreen(navHostController:NavHostController) {
-    ActivitysList()
+    ActivitysList(navHostController)
 }
 
 @Composable
-fun ActivitysList(viewModel: DataViewModel = hiltViewModel()) {
+fun ActivitysList(navHostController: NavHostController,viewModel: DataViewModel = hiltViewModel()) {
     val activitysList by remember { viewModel.activitysList }
     val errorMessage by remember { viewModel.errorMessage }
     val isLoading by remember { viewModel.isLoading }
 
-    ActivitysGridItem(activitys = activitysList)
+    ActivitysGridItem(navHostController,activitys = activitysList)
 
     Box(
         contentAlignment = Alignment.Center,
@@ -85,16 +94,16 @@ fun ActivitysList(viewModel: DataViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun ActivitysGridItem(activitys: List<ActivitysItem>) {
+fun ActivitysGridItem(navHostController:NavHostController,activitys: List<ActivitysItem>) {
     LazyVerticalGrid(GridCells.Fixed(2)) {
         items(activitys) { item ->
-            ActivitysItem(activitys = item)
+            ActivitysItem(navHostController,activitys = item)
         }
     }
 }
 
 @Composable
-fun ActivitysItem(activitys:ActivitysItem) {
+fun ActivitysItem(navHostController: NavHostController,activitys:ActivitysItem) {
 
     var dateTimeString by remember { mutableStateOf(activitys.EtkinlikBaslamaTarihi) }
     var date by remember { mutableStateOf("") }
@@ -109,12 +118,15 @@ fun ActivitysItem(activitys:ActivitysItem) {
     var isClickedDetails by remember { mutableStateOf(false) }
     val ucrestsizmi = activitys.UcretsizMi
 
+    val document: Document = Jsoup.parse(activitys.KisaAciklama)
+    val cleanedHtml: String = Jsoup.clean(document.body().html(), Whitelist.none())
+
     Card (
         modifier = Modifier
             .size(305.dp)
             .padding(8.dp)
             .clickable {
-                isClickedDetails = true
+                navHostController.navigate("activitydetails")
             }
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
@@ -149,7 +161,7 @@ fun ActivitysItem(activitys:ActivitysItem) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = { isClickedDetails = true}) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
                         contentDescription = null,
@@ -169,7 +181,7 @@ fun ActivitysItem(activitys:ActivitysItem) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = {isClickedDetails = true }) {
                     Icon(
                         painter = painterResource(id = R.drawable.clock),
                         contentDescription = null,
@@ -223,14 +235,18 @@ fun ActivitysItem(activitys:ActivitysItem) {
                                 .align(Alignment.CenterHorizontally)
                                 .padding(top = 8.dp)
                         )
+
                         Text(
-                            text = activitys.KisaAciklama,
+                            text = cleanedHtml + "- Detaylar için tıklayınız...",
                             color = Color.White,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
+                                .clickable {
+                                    navHostController.navigate("activitydetails")
+                                }
                                 .align(Alignment.CenterHorizontally)
                                 .padding(top = 8.dp),
-                            maxLines = 10
+                            maxLines = 11
                         )
                         Column(
                             modifier = Modifier

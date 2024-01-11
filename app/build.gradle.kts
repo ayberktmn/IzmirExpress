@@ -100,5 +100,8 @@ dependencies {
 
     implementation ("io.coil-kt:coil-compose:1.4.0")
 
+    implementation ("org.jsoup:jsoup:1.14.3")
+
+
 
 }

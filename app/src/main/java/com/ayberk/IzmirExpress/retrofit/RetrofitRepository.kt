@@ -1,5 +1,6 @@
 package com.ayberk.IzmirExpress.retrofit
 
+import com.ayberk.IzmirExpress.model.ActivityDetails
 import com.ayberk.IzmirExpress.model.Activitys
 import com.ayberk.IzmirExpress.model.EmergencyCollect
 import com.ayberk.IzmirExpress.model.Museums
@@ -54,4 +55,14 @@ class RetrofitRepository @Inject constructor(
         }
         return Resource.Success(response)
     }
+
+    suspend fun getActivityDetails(Id:Int) : Resource<ActivityDetails>{
+        val response = try {
+            api.getActivitysDetails(Id)
+        } catch (e:Exception){
+            return Resource.Error("ActivityDetails Error")
+        }
+        return Resource.Success(response)
+    }
+
 }

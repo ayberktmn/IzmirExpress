@@ -126,11 +126,13 @@ fun ActivitysItem(navHostController: NavHostController,activitys:ActivitysItem) 
             .size(305.dp)
             .padding(8.dp)
             .clickable {
-                navHostController.navigate("activitydetails")
+                navHostController.navigate("activitydetails/${activitys.Id}")
+                println("gönderilen id ${activitys.Id}")
             }
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(Color.Black),
+
     ) {
         Image(
             painter = rememberImagePainter(data = activitys.Resim),
@@ -237,7 +239,7 @@ fun ActivitysItem(navHostController: NavHostController,activitys:ActivitysItem) 
                         )
 
                         Text(
-                            text = cleanedHtml + "- Detaylar için tıklayınız...",
+                            text = cleanedHtml + " Detaylar için tıklayınız...",
                             color = Color.White,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
@@ -362,7 +364,7 @@ fun ActivitysItem(navHostController: NavHostController,activitys:ActivitysItem) 
                         }
                     }
                 },
-                containerColor = Color(0xFF1944E0)
+                containerColor = Color(0xFF673AB7)
             )
         }
     }

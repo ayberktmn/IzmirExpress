@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayberk.IzmirExpress.PharmacyItem
+import com.ayberk.IzmirExpress.model.ActivityDetails
 import com.ayberk.IzmirExpress.model.Activitys
 import com.ayberk.IzmirExpress.model.ActivitysItem
 import com.ayberk.IzmirExpress.model.EmergencyCollect
@@ -225,6 +226,9 @@ class DataViewModel @Inject constructor(
                 else -> {}
             }
         }
+    }
+    suspend fun LoadActivityDetails(Id:Int): Resource<ActivityDetails> {
+        return repository.getActivityDetails(Id)
     }
 }
 

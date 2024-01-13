@@ -46,6 +46,9 @@ import com.ayberk.IzmirExpress.model.SeansListesi
 import com.ayberk.IzmirExpress.ui.theme.white
 import com.ayberk.IzmirExpress.util.Resource
 import com.ayberk.IzmirExpress.viewmodel.DataViewModel
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.safety.Whitelist
 
 @Composable
 fun ActivityDetailsScreen(navHostController:NavHostController,Id:Int,viewModel: DataViewModel = hiltViewModel()) {
@@ -79,7 +82,9 @@ fun ItemGrid(activityDetails: ActivityDetails) {
 @Composable
 fun DetailsItem(activityDetails: ActivityDetails) {
 
-    val ucrestsizmi =    activityDetails.SeansListesi[0].UcretsizMi
+    val ucrestsizmi = activityDetails.SeansListesi[0].UcretsizMi
+    val document: Document = Jsoup.parse(activityDetails.Aciklama)
+    val cleanedHtml: String = Jsoup.clean(document.body().html(), Whitelist.none())
 
     Card(
         modifier = Modifier
@@ -196,5 +201,21 @@ fun DetailsItem(activityDetails: ActivityDetails) {
             }
         }
         Spacer(modifier = Modifier.padding(bottom = 8.dp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(2.dp)
+                .shadow(8.dp, shape = MaterialTheme.shapes.medium),
+            shape = MaterialTheme.shapes.medium,
+            colors = CardDefaults.cardColors(Color.White)
+        ){
+            Text(text = "Açıklama" + cleanedHtml, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+                .padding(top = 8.dp)
+                .padding(start = 4.dp)
+                .padding(end = 4.dp)
+                .padding(bottom = 8.dp)
+                .align(Alignment.CenterHorizontally))
+        }
     }
 }

@@ -116,28 +116,38 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                     .align(Alignment.CenterHorizontally)
             )
         }
-
-        Text(text = "Tür: " + activityDetails.Tur, color = Color.Black, textAlign = TextAlign.Center, modifier = Modifier
-            .padding(top = 8.dp)
-            .align(Alignment.CenterHorizontally))
-
-        Text(text = "Etkinlik Merkezi: " + activityDetails.EtkinlikMerkezi.Adi, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
-            .padding(top = 8.dp)
-            .align(Alignment.CenterHorizontally))
-
-        if (ucrestsizmi){
-            Text(text = "Ücret: " + "Ücretsiz", textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+        Card(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .shadow(8.dp, shape = MaterialTheme.shapes.medium),
+            shape = MaterialTheme.shapes.medium,
+            colors = CardDefaults.cardColors(white),
+            border = BorderStroke(1.dp, Color.Gray)
+        ){
+            Text(text = "Tür: " + activityDetails.Tur, color = Color.Black, textAlign = TextAlign.Center, modifier = Modifier
                 .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally))
-        }
-        else{
-            Text(text = "Ücret: " + "Ücretli", textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+
+            Text(text = "Etkinlik Merkezi: " + activityDetails.EtkinlikMerkezi.Adi, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
                 .padding(top = 8.dp)
                 .align(Alignment.CenterHorizontally))
+
+            if (ucrestsizmi){
+                Text(text = "Ücret: " + "Ücretsiz", textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally))
+            }
+            else{
+                Text(text = "Ücret: " + "Ücretli", textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.CenterHorizontally))
+            }
+            Spacer(modifier = Modifier.padding(bottom = 4.dp))
         }
 
         activityDetails.SeansListesi.forEach { seans ->
-            val biletSatisLinki = seans.BiletSatisLinki
+
             val context = LocalContext.current
 
             Card(
@@ -155,13 +165,22 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                 Text(text = "Doluluk Oranı: "+ seans.DolulukOranı, textAlign = TextAlign.Center, color = Color.White, modifier = Modifier
                     .padding(top = 8.dp)
                     .align(Alignment.CenterHorizontally))
+
                 if (seans.BiletSatisLinki != null){
-                    Text(text = "Bilet Satış Linki", textAlign = TextAlign.Center, color = Color.White, modifier = Modifier
+                    Text(
+                        text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                            append("Bilet Satış Linki")
+                        }
+                    },
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        modifier = Modifier
                         .padding(top = 8.dp)
                         .align(Alignment.CenterHorizontally)
                         .clickable {
                             seans.BiletSatisLinki?.let { link ->
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(biletSatisLinki))
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
                                 context.startActivity(intent)
                             }
                         }

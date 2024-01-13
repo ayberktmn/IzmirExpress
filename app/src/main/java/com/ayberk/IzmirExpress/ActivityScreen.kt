@@ -243,12 +243,13 @@ fun ActivitysItem(navHostController: NavHostController,activitys:ActivitysItem) 
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .clickable {
-                                    navHostController.navigate("activitydetails")
+                                    navHostController.navigate("activitydetails/${activitys.Id}")
                                 }
                                 .align(Alignment.CenterHorizontally)
                                 .padding(top = 8.dp),
                             maxLines = 11
                         )
+
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()

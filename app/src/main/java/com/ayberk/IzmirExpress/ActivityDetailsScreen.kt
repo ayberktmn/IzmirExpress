@@ -16,12 +16,21 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -85,6 +94,9 @@ fun DetailsItem(activityDetails: ActivityDetails) {
     val ucrestsizmi = activityDetails.SeansListesi[0].UcretsizMi
     val document: Document = Jsoup.parse(activityDetails.Aciklama)
     val cleanedHtml: String = Jsoup.clean(document.body().html(), Whitelist.none())
+    var expanded by remember { mutableStateOf(false) }
+    val documentUlasim: Document = Jsoup.parse(activityDetails.EtkinlikMerkezi.Adres)
+    val cleanedHtmlUlasim: String = Jsoup.clean(documentUlasim.body().html(), Whitelist.none())
 
     Card(
         modifier = Modifier
@@ -93,7 +105,7 @@ fun DetailsItem(activityDetails: ActivityDetails) {
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(white)
-    ){
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxSize()
@@ -112,7 +124,8 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                     .padding(top = 2.dp),
                 contentScale = ContentScale.FillWidth
             )
-            Text(text = activityDetails.Adi,
+            Text(
+                text = activityDetails.Adi,
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -129,24 +142,43 @@ fun DetailsItem(activityDetails: ActivityDetails) {
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(white),
             border = BorderStroke(1.dp, Color.Gray)
-        ){
-            Text(text = "Tür: " + activityDetails.Tur, color = Color.Black, textAlign = TextAlign.Center, modifier = Modifier
-                .padding(top = 8.dp)
-                .align(Alignment.CenterHorizontally))
-
-            Text(text = "Etkinlik Merkezi: " + activityDetails.EtkinlikMerkezi.Adi, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
-                .padding(top = 8.dp)
-                .align(Alignment.CenterHorizontally))
-
-            if (ucrestsizmi){
-                Text(text = "Ücret: " + "Ücretsiz", textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+        ) {
+            Text(
+                text = "Tür: " + activityDetails.Tur,
+                color = Color.Black,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
                     .padding(top = 8.dp)
-                    .align(Alignment.CenterHorizontally))
-            }
-            else{
-                Text(text = "Ücret: " + "Ücretli", textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+
+            Text(
+                text = "Etkinlik Merkezi: " + activityDetails.EtkinlikMerkezi.Adi,
+                textAlign = TextAlign.Center,
+                color = Color.Black,
+                modifier = Modifier
                     .padding(top = 8.dp)
-                    .align(Alignment.CenterHorizontally))
+                    .align(Alignment.CenterHorizontally)
+            )
+
+            if (ucrestsizmi) {
+                Text(
+                    text = "Ücret: " + "Ücretsiz",
+                    textAlign = TextAlign.Center,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            } else {
+                Text(
+                    text = "Ücret: " + "Ücretli",
+                    textAlign = TextAlign.Center,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
             }
             Spacer(modifier = Modifier.padding(bottom = 4.dp))
         }
@@ -161,61 +193,138 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                     .padding(8.dp)
                     .shadow(8.dp, shape = MaterialTheme.shapes.medium),
                 shape = MaterialTheme.shapes.medium,
-                colors = CardDefaults.cardColors(Color.Blue)
-            ){
-                Text(text = "Seanslar: "+ seans.BiletSatisAciklama, textAlign = TextAlign.Center, color = Color.White, modifier = Modifier
-                    .padding(top = 8.dp)
-                    .align(Alignment.CenterHorizontally))
+                colors = CardDefaults.cardColors(Color.Blue),
+                border = BorderStroke(1.dp, Color.Gray)
+            ) {
+                Text(
+                    text = "Seanslar: " + seans.BiletSatisAciklama,
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
 
-                Text(text = "Doluluk Oranı: "+ seans.DolulukOranı, textAlign = TextAlign.Center, color = Color.White, modifier = Modifier
-                    .padding(top = 8.dp)
-                    .align(Alignment.CenterHorizontally))
+                Text(
+                    text = "Doluluk Oranı: " + seans.DolulukOranı,
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
 
-                if (seans.BiletSatisLinki != null){
+                if (seans.BiletSatisLinki != null) {
                     Text(
                         text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                            append("Bilet Satış Linki")
-                        }
-                    },
+                            withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
+                                append("Bilet Satış Linki")
+                            }
+                        },
                         textAlign = TextAlign.Center,
                         color = Color.White,
                         modifier = Modifier
-                        .padding(top = 8.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .clickable {
-                            seans.BiletSatisLinki?.let { link ->
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
-                                context.startActivity(intent)
+                            .padding(top = 8.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .clickable {
+                                seans.BiletSatisLinki?.let { link ->
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                                    context.startActivity(intent)
+                                }
                             }
-                        }
                     )
                     Spacer(modifier = Modifier.padding(bottom = 4.dp))
-                }
-                else{
-                    Text(text = "Bilet Satışı Bulunmamaktadır", textAlign = TextAlign.Center, color = Color.White, modifier = Modifier
-                        .padding(top = 8.dp)
-                        .align(Alignment.CenterHorizontally))
+                } else {
+                    Text(
+                        text = "Bilet Satışı Bulunmamaktadır",
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
                 }
                 Spacer(modifier = Modifier.padding(bottom = 4.dp))
             }
         }
-        Spacer(modifier = Modifier.padding(bottom = 8.dp))
 
         Card(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(2.dp)
+                .padding(8.dp)
                 .shadow(8.dp, shape = MaterialTheme.shapes.medium),
             shape = MaterialTheme.shapes.medium,
-            colors = CardDefaults.cardColors(Color.White)
-        ){
-            Text(text = "Açıklama: " + cleanedHtml, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
-                .padding(top = 8.dp)
-                .padding(start = 4.dp)
-                .padding(end = 4.dp)
-                .padding(bottom = 8.dp)
-                .align(Alignment.CenterHorizontally))
+            colors = CardDefaults.cardColors(Color.White),
+            border = BorderStroke(1.dp, Color.Gray)
+        ) {
+            Text(
+                text = "Adres: " + cleanedHtmlUlasim,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(start = 4.dp)
+                    .padding(end = 4.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.padding(bottom = 4.dp))
+
+        Card(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .clickable {
+                    expanded = !expanded
+                }
+                .shadow(8.dp, shape = MaterialTheme.shapes.medium),
+            shape = MaterialTheme.shapes.medium,
+            colors = CardDefaults.cardColors(Color.White),
+            border = BorderStroke(1.dp, Color.Gray)
+        ) {
+            Text(
+                text = "Açıklama",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp)
+            )
+
+            if (expanded) {
+                IconButton(
+                    onClick = { expanded = false },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = Color.Black
+                    )
+                }
+                Text(
+                    text = cleanedHtml,
+                    textAlign = TextAlign.Center,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .padding(start = 4.dp)
+                        .padding(end = 4.dp)
+                        .padding(bottom = 8.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            } else {
+                IconButton(
+                    onClick = { expanded = true },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = null,
+                        tint = Color.Black
+                    )
+                }
+            }
         }
     }
 }

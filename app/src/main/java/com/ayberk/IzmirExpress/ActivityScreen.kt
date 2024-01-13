@@ -127,7 +127,6 @@ fun ActivitysItem(navHostController: NavHostController,activitys:ActivitysItem) 
             .padding(8.dp)
             .clickable {
                 navHostController.navigate("activitydetails/${activitys.Id}")
-                println("gönderilen id ${activitys.Id}")
             }
             .shadow(8.dp, shape = MaterialTheme.shapes.medium),
         shape = MaterialTheme.shapes.medium,

@@ -210,7 +210,7 @@ fun DetailsItem(activityDetails: ActivityDetails) {
             shape = MaterialTheme.shapes.medium,
             colors = CardDefaults.cardColors(Color.White)
         ){
-            Text(text = "Açıklama" + cleanedHtml, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
+            Text(text = "Açıklama: " + cleanedHtml, textAlign = TextAlign.Center, color = Color.Black, modifier = Modifier
                 .padding(top = 8.dp)
                 .padding(start = 4.dp)
                 .padding(end = 4.dp)

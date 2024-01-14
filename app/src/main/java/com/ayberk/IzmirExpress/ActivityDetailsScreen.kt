@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -52,6 +54,7 @@ import com.ayberk.IzmirExpress.model.ActivityDetails
 import com.ayberk.IzmirExpress.model.ActivitysItem
 import com.ayberk.IzmirExpress.model.EtkinlikMerkezi
 import com.ayberk.IzmirExpress.model.SeansListesi
+import com.ayberk.IzmirExpress.ui.theme.blue
 import com.ayberk.IzmirExpress.ui.theme.white
 import com.ayberk.IzmirExpress.util.Resource
 import com.ayberk.IzmirExpress.viewmodel.DataViewModel
@@ -61,18 +64,29 @@ import org.jsoup.safety.Whitelist
 
 @Composable
 fun ActivityDetailsScreen(navHostController:NavHostController,Id:Int,viewModel: DataViewModel = hiltViewModel()) {
-
+    val errorMessage by remember { viewModel.errorMessage }
+    val isLoading by remember { viewModel.isLoading }
     val detailsId = produceState<Resource<ActivityDetails>>(initialValue = Resource.Loading()){
         value = viewModel.LoadActivityDetails(Id = Id)
     }.value
     detailsId.data?.let { details ->
         DetailsList(activityDetails = details)
     } ?: run {
-        RetryView(error = "Error Details") {
-
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if(isLoading) {
+                CircularProgressIndicator(color = blue)
+            }
+            if(errorMessage.isNotEmpty()) {
+                RetryView(error = errorMessage) {
+                }
+            }
         }
     }
 }
+
 
 @Composable
 fun DetailsList(activityDetails: ActivityDetails) {

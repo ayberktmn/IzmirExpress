@@ -123,8 +123,10 @@ fun MuseumsRow(navHostController: NavHostController, museums: Onemliyer) {
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
+                        .padding(end = 8.dp)
                 )
             }
 

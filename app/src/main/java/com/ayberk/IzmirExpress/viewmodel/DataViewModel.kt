@@ -155,41 +155,6 @@ class DataViewModel @Inject constructor(
         }
     }
 
-    fun loadEmergencyCollect(){
-        viewModelScope.launch {
-            isLoading.value = true
-            val result = repository.getEmergencyCollect()
-            when(result){
-                is Resource.Success -> {
-                    val Emergencycollectsitems = result.data?.onemliyer?.map { item ->
-                        OnemliyerX(
-                            item.ACIKLAMA,
-                            item.ADI,
-                            item.BOYLAM,
-                            item.ENLEM,
-                            item.ILCE,
-                            item.ILCEID,
-                            item.KAPINO,
-                            item.MAHALLE,
-                            item.YOL
-                        )
-                    }?: emptyList()
-                    errorMessage.value = ""
-                    isLoading.value = false
-                    emergencyCollectList.value = Emergencycollectsitems
-                }
-                is Resource.Error -> {
-                    errorMessage.value = result.message ?: "Bir hata oluştu."
-                    isLoading.value = false
-                }
-                is Resource.Loading -> {
-                    errorMessage.value = ""
-                }
-                else -> {}
-            }
-        }
-    }
-
     fun loadActivitys(){
         viewModelScope.launch {
             isLoading.value = true

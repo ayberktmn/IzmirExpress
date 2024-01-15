@@ -12,7 +12,7 @@
 - Nöbetçi eczaneleri listeleme
 - Su kesintilerini görüntüleme
 - Acil toplanma alanlarını görüntüleme
-- Etkinlikleri listeleme ve dataylarını inceleme bilet satın alma
+- Etkinlikleri listeleme detaylarını inceleme ve bilet satın alma
   
   
 

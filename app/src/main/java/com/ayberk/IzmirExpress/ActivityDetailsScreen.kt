@@ -191,6 +191,7 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                     color = Color.Black,
                     modifier = Modifier
                         .padding(top = 8.dp)
+                        .padding(bottom = 8.dp)
                         .align(Alignment.CenterHorizontally)
                 )
             }
@@ -239,6 +240,7 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                         color = Color.White,
                         modifier = Modifier
                             .padding(top = 8.dp)
+                            .padding(bottom = 8.dp)
                             .align(Alignment.CenterHorizontally)
                             .clickable {
                                 seans.BiletSatisLinki?.let { link ->
@@ -255,6 +257,7 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                         color = Color.White,
                         modifier = Modifier
                             .padding(top = 8.dp)
+                            .padding(bottom = 8.dp)
                             .align(Alignment.CenterHorizontally)
                     )
                 }
@@ -277,6 +280,8 @@ fun DetailsItem(activityDetails: ActivityDetails) {
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(start = 4.dp)
+                    .padding(bottom = 8.dp)
+                    .padding(top = 8.dp)
                     .padding(end = 4.dp)
             )
         }

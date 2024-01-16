@@ -10,59 +10,31 @@ import com.ayberk.IzmirExpress.util.Resource
 import javax.inject.Inject
 
 class RetrofitRepository @Inject constructor(
-    private val api:RetrofitInstance
+    private val api: RetrofitInstance
 ) {
-    suspend fun getMuseums():Resource<Museums>{
-        val response = try {
-            api.getMuseums()
-        }catch (e:Exception){
-            return Resource.Error("Museums Error")
+    private suspend fun <T> safeApiCall(apiCall: suspend () -> T): Resource<T> {
+        return try {
+            Resource.Success(apiCall.invoke())
+        } catch (e: Exception) {
+            Resource.Error("Error occurred")
         }
-        return Resource.Success(response)
-    }
-    suspend fun getPharmacy():Resource<Pharmacy>{
-        val response = try {
-            api.getPharmacy()
-        }catch (e:Exception){
-            return Resource.Error("Pharmacy Error")
-        }
-        return Resource.Success(response)
     }
 
-    suspend fun getWaterProblem():Resource<WaterProblem>{
-        val response = try {
-            api.getWaterProblem()
-        }catch (e:Exception){
-            return Resource.Error("WaterProblem Error")
-        }
-        return Resource.Success(response)
-    }
+    suspend fun getMuseums(): Resource<Museums> =
+        safeApiCall { api.getMuseums() }
 
-    suspend fun getEmergencyCollect():Resource<EmergencyCollect>{
-        val response = try {
-            api.getEmergencyCollect()
-        }catch (e:Exception){
-            return Resource.Error("EmergencyCollect Error")
-        }
-        return Resource.Success(response)
-    }
+    suspend fun getPharmacy(): Resource<Pharmacy> =
+        safeApiCall { api.getPharmacy() }
 
-    suspend fun getActivitys():Resource<Activitys>{
-        val response = try {
-            api.getActivitys()
-        }catch (e:Exception){
-            return Resource.Error("Activitys Error")
-        }
-        return Resource.Success(response)
-    }
+    suspend fun getWaterProblem(): Resource<WaterProblem> =
+        safeApiCall { api.getWaterProblem() }
 
-    suspend fun getActivityDetails(Id:Int) : Resource<ActivityDetails>{
-        val response = try {
-            api.getActivitysDetails(Id)
-        } catch (e:Exception){
-            return Resource.Error("ActivityDetails Error")
-        }
-        return Resource.Success(response)
-    }
+    suspend fun getEmergencyCollect(): Resource<EmergencyCollect> =
+        safeApiCall { api.getEmergencyCollect() }
 
+    suspend fun getActivitys(): Resource<Activitys> =
+        safeApiCall { api.getActivitys() }
+
+    suspend fun getActivityDetails(Id: Int): Resource<ActivityDetails> =
+        safeApiCall { api.getActivitysDetails(Id) }
 }
